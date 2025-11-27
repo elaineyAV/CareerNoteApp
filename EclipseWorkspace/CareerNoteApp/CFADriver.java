@@ -13,17 +13,15 @@ public class CFADriver {
 	 */
 	public static void main(String[] args)
 	{
-		ArrayList<Company> companies = new ArrayList<>();
 		Scanner scanner = new Scanner(System.in);
 		
-//		welcome message
-		welcomeMessage();
+		AppService.welcomeMessage();
 		
 		boolean running = true;
 		do {
 			
-			menuOptions();
-			displaySortedCompanies(companies);
+			AppService.menuOptions();
+			displaySortedCompanies(AppService.getCompanies());
 			int choice = scanner.nextInt();
 			scanner.nextLine();
 			switch (choice) {
@@ -50,12 +48,6 @@ public class CFADriver {
 		scanner.close();
 	}
 
-	public static void addPrenotes(Scanner scanner, ArrayList<Company> companies) {
-		System.out.println("Which company would you like to add a note for? ");
-		int choice = scanner.nextInt();
-		scanner.nextLine();
-		companies.get(choice).setPrenotes();
-	}
 	public static void displaySortedCompanies(ArrayList<Company> companies) {
 		if (!companies.isEmpty()) {
 			
@@ -63,37 +55,8 @@ public class CFADriver {
 			System.out.println("~ Company List ~");			
 			companies.sort(Comparator.comparing(Company::getName));
 			for (int i = 0; i < companies.size(); i++) {
-				System.out.printf("&d. %s/n", i, companies.get(i).getName());
+				System.out.printf("%d. %s\n", i+1, companies.get(i).getName());
 			}
 		}
-	}
-	public static void welcomeMessage() {
-		System.out.println("Welcome to the Career Fair Notetaking App!");
-	}
-	
-	public static void menuOptions() {
-		System.out.println();
-		System.out.println("Select menu option:");
-		System.out.println("1. Add company");
-		System.out.println("2. Add notes");
-		System.out.println("0. Exit");
-		
-	}
-	
-	public static void addCompany(Scanner scanner, ArrayList<Company> companies) {
-		boolean addMore = true;
-		do {
-			System.out.println("What is the company name?");
-			String compName = scanner.nextLine();
-			Company newCompany = new Company(compName);
-			companies.add(newCompany);
-			
-			System.out.println("Add another company? Y/N");
-			char answer = scanner.next().charAt(0);
-			if (answer == 'N' || answer == 'n') {
-				addMore = false;
-			}
-			scanner.nextLine();
-		} while (addMore); 
 	}
 }
